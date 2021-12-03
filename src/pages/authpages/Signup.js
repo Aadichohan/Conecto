@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, Row, Col, Card , Typography,Alert } from 'antd';
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 // import {createUserWithEmailAndPassword} from 'firebase/auth';
-import {auth} from '../../fb_auth/firebase-config';
+// import {auth} from '../../fb_auth/firebase-config';
 import {useAuth} from '../../authContext/AuthContext'
 const { Title } = Typography;
 
@@ -36,10 +36,10 @@ const handleSignup = async () => {
     setLoading(true)
       await  register(RegisterEmail, RegisterPassword)
   }catch(e){
-    if(e.code == 'auth/email-already-in-use'){
+    if(e.code === 'auth/email-already-in-use'){
       setError("email-already-in-use")
     }
-    else if(e.code == 'auth/weak-password'){
+    else if(e.code === 'auth/weak-password'){
       setError("Password length should be atleast 6 ")
     }
     else{

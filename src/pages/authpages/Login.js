@@ -3,24 +3,22 @@ import { Form, Input, Button, Row, Col, Card , Typography } from 'antd';
 import { Link } from "react-router-dom";
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
-import {signInWithEmailAndPassword} from 'firebase/auth';
-import {auth} from '../../fb_auth/firebase-config';
+// import {signInWithEmailAndPassword} from 'firebase/auth';
+// import {auth} from '../../fb_auth/firebase-config';
 
-import {AuthStateChange, AuthHandle} from '../../authHandler/AuthHandler';
-import {useNavigate, Navigate} from 'react-router-dom'
+// import {AuthStateChange, AuthHandle} from '../../authHandler/AuthHandler';
+import {useHistory} from 'react-router-dom'
 
 import {useAuth} from '../../authContext/AuthContext'
 
-import 'antd/dist/antd.css';
+// import 'antd/dist/antd.css';
 const { Title } = Typography;
 function Login() {
-  // AuthStateChange();
-  // FBAuthHandler();
-  // AuthHandle();
+
   const [LoginEmail,setLoginEmail] = useState("")
   const [LoginPassword,setLoginPassword] = useState("")
   const [error,setError] = useState("")
-  const [Loading,setLoading] = useState(false)
+  // const [Loading,setLoading] = useState(false)
   // const LoginHandler =  async () => {
   //   let navigate = useNavigate();
   //   try{
@@ -35,29 +33,29 @@ function Login() {
   //   }
   // }
   const {login} = useAuth();
-   const HandleLogin = async () => {
-      let navigate = useNavigate();
- 
+   let history = useHistory();
+   async function handleLogin(e)  {
+    e.preventDefault();
     try{
       setError('')
-      setLoading(true)
+      // setLoading(true)
       await  login(LoginEmail, LoginPassword)
       console.log('tryblock ', LoginEmail);
-     // navigate('/')
+      history.push('/')
     }catch(e){
-      if(e.code == 'auth/email-already-in-use'){
+      if(e.code === 'auth/email-already-in-use'){
         setError("email-already-in-use")
       }
-      else if(e.code == 'auth/weak-password'){
+      else if(e.code === 'auth/weak-password'){
         setError("Password length should be atleast 6 ")
       }
       else{
-        console.log('error ',e);
+        console.log('error ',error);
          setError(e.message)
   
       }
     }
-    setLoading(false)
+    // setLoading(false)
   }
 
     return (
@@ -119,7 +117,7 @@ function Login() {
         {/* <Checkbox>Remember me</Checkbox> */}
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit" className="login-form-button" onClick={HandleLogin}>
+        <Button type="primary" htmlType="submit" className="login-form-button" onClick={handleLogin}>
         Login
         </Button>
         <br/>
